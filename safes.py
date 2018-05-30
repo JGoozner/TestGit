@@ -5,6 +5,15 @@
 
 import subprocess
 import re
+import os
+import argparse
+
+#parse args
+parser = argparse.ArgumentParser()
+parser.add_argument('input')
+args = parser.parse_args()
+
+
 #DO import global variables as string
 string_env = subprocess.check_output('env')
 
@@ -12,7 +21,7 @@ string_env = subprocess.check_output('env')
 globalNameRegex = re.compile(r'(\w+)=')
 nameEx = globalNameRegex.findall(string_env)
 
-newGlobal= "IMMATEAPOTS"
+newGlobal= str(args.input)
 isTaken = False
 
 #DO check to see if var is already taken
@@ -20,8 +29,10 @@ for globalEnv in nameEx:
 	if newGlobal == globalEnv:
 		isTaken = True
 		
-
 #- Need to allow input of new global variable name ( ignore value wanted)
 #- set value if true; print cant set if false
 if isTaken == False:
-	subprocess.call(["ls", "-l"])
+	print('Variable is not taken')
+	#subprocess.call(['./setVar.sh "1"'], shell = True)
+else:
+	print("Variable is taken")
